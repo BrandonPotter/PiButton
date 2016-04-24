@@ -6,10 +6,9 @@
   "projectUrl": "",
   "licenseUrl": "",
   "frameworks": {
-    "dnxcore50": { }
+    "dnx451": { }
   },
   "dependencies": {
-    "System.IO.FileSystem": "4.0.0",
     "System.IO.FileSystem.Primitives": "4.0.0",
     "Microsoft.CSharp": "4.0.1-beta-23516",
     "System.Collections": "4.0.11-beta-23516",
