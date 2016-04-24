@@ -52,7 +52,22 @@ namespace PiO
                 directionContent = "in";
             }
             Log("Setting direction");
-            System.IO.File.WriteAllText($"{PinPath}/direction", directionContent);
+
+            string directionFilePath = $"{PinPath}/direction";
+            for (int i = 0; i < 10; i++)
+            {
+                if (!System.IO.File.Exists(directionFilePath))
+                {
+                    Log("Waiting for " + directionFilePath + " to exist");
+                }
+                else
+                {
+                    break;
+                }
+                System.Threading.Thread.Sleep(250);
+            }
+
+            System.IO.File.WriteAllText(directionFilePath, directionContent);
             Log("Setup finished");
         }
 
