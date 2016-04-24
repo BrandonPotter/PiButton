@@ -9,7 +9,7 @@ namespace PiO
     // To enable this option, right-click on the project and select the Properties menu item. In the Build tab select "Produce outputs on build".
     public class RaspberryPi
     {
-        private Dictionary<int, GpioPin> _pins = new Dictionary<int, GpioPin>();
+        private static Dictionary<int, GpioPin> _pins = new Dictionary<int, GpioPin>();
         public RaspberryPi()
         {
             
