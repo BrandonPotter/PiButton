@@ -17,6 +17,7 @@ namespace PiO
         public int Index { get; private set; }
         public GpioPinDirection Direction { get; private set; }
         private bool _lastWriteValue = false;
+        private bool _lastReadValue = false;
 
         internal GpioPin(RaspberryPi parentPi, int index, GpioPinDirection direction)
         {
@@ -103,7 +104,15 @@ namespace PiO
             if (System.IO.File.Exists($"{PinPath}/value"))
             {
                 string result = System.IO.File.ReadAllText($"{PinPath}/value");
-                return result.Trim() == "1";
+                bool currentValue = result.Trim() == "1";
+
+                if (currentValue != _lastReadValue)
+                {
+                    Log("Value changed to " + currentValue.ToString());
+                }
+
+                _lastReadValue = currentValue;
+                return currentValue;
             }
 
             throw new InvalidOperationException("Could not read pin " + Index.ToString() + ", value file does not exist");
@@ -112,6 +121,14 @@ namespace PiO
         private void Log(string msg)
         {
             System.Console.WriteLine($"GPIO Pin {Index}: {msg}");
+        }
+
+        internal void Poll()
+        {
+            if (Direction == GpioPinDirection.In)
+            {
+                Read();
+            }
         }
     }
 }
