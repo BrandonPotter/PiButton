@@ -35,14 +35,20 @@ namespace PiO
         private void SetupPin()
         {
             Log("Setup Pin");
+            string directionFilePath = $"{PinPath}/direction";
+
             if (!System.IO.File.Exists("/sys/class/gpio/unexport"))
             {
                 Log("Unexport file not found");
                 throw new InvalidOperationException("Unexport path does not exist. Is service running on Pi?");
             }
 
-            Log("Unexporting");
-            System.IO.File.WriteAllText("/sys/class/gpio/unexport", Index.ToString());
+            if (System.IO.File.Exists(directionFilePath))
+            {
+                Log("Unexporting");
+                System.IO.File.WriteAllText("/sys/class/gpio/unexport", Index.ToString());
+            }
+
             Log("Exporting");
             System.IO.File.WriteAllText("/sys/class/gpio/export", Index.ToString());
 
@@ -53,7 +59,7 @@ namespace PiO
             }
             Log("Setting direction");
 
-            string directionFilePath = $"{PinPath}/direction";
+            
             for (int i = 0; i < 10; i++)
             {
                 if (!System.IO.File.Exists(directionFilePath))
